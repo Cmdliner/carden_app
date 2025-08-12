@@ -1,5 +1,6 @@
-import { MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { House, User, Wallet } from "phosphor-react-native";
+import { Platform, StyleSheet } from "react-native";
 import { useTheme } from "react-native-paper";
 import { ProtectedRoute } from "../../components/ProtectedRoute";
 
@@ -12,35 +13,22 @@ export default function TabLayout() {
                 screenOptions={{
                     headerShown: false,
                     tabBarActiveTintColor: theme.colors.primary,
-                    tabBarInactiveTintColor: theme.colors.onSurface + '80', 
+                    tabBarInactiveTintColor: theme.colors.onSurface + '80',
                     tabBarStyle: {
                         backgroundColor: theme.colors.surface,
-                        borderTopColor: theme.colors.outline,
-                        borderTopWidth: 1,
                         height: 60,
                         paddingBottom: 8,
                         paddingTop: 8,
                     },
-                    tabBarLabelStyle: {
-                        fontSize: 12,
-                        fontWeight: '500',
-                        marginTop: 2,
-                    },
-                    tabBarIconStyle: {
-                        marginBottom: 2,
-                    }
+                    tabBarShowLabel: false, // hide labels for a clean look
                 }}
             >
                 <Tabs.Screen
                     name="home"
                     options={{
                         title: "Home",
-                        tabBarIcon: ({ focused, color, size = 24 }) => (
-                            <MaterialIcons
-                                name={focused ? "home" : "home"}
-                                size={size}
-                                color={color}
-                            />
+                        tabBarIcon: ({ color, size = 28 }) => (
+                            <House color={color} size={size} weight="regular" />
                         ),
                     }}
                 />
@@ -48,12 +36,8 @@ export default function TabLayout() {
                     name="wallet"
                     options={{
                         title: "Wallet",
-                        tabBarIcon: ({ focused, color, size = 24 }) => (
-                            <MaterialIcons
-                                name={focused ? "account-balance-wallet" : "account-balance-wallet"}
-                                size={size}
-                                color={color}
-                            />
+                        tabBarIcon: ({ color, size = 28 }) => (
+                            <Wallet color={color} size={size} weight="regular" />
                         ),
                     }}
                 />
@@ -61,12 +45,8 @@ export default function TabLayout() {
                     name="profile"
                     options={{
                         title: "Profile",
-                        tabBarIcon: ({ focused, color, size = 24 }) => (
-                            <MaterialIcons
-                                name={focused ? "person" : "person-outline"}
-                                size={size}
-                                color={color}
-                            />
+                        tabBarIcon: ({ color, size = 28 }) => (
+                            <User color={color} size={size} weight="regular" />
                         ),
                     }}
                 />
@@ -74,3 +54,25 @@ export default function TabLayout() {
         </ProtectedRoute>
     );
 }
+
+const styles = StyleSheet.create({
+    headerContainer: {
+        backgroundColor: '#fffdfa',
+        paddingTop: Platform.OS === 'ios' ? 60 : 32,
+        paddingBottom: 18,
+        paddingHorizontal: 24,
+        borderBottomWidth: 0,
+        shadowColor: '#cbd5e1',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 8,
+        elevation: 2,
+    },
+    headerText: {
+        fontSize: 28,
+        fontFamily: 'SpaceGrotesk',
+        fontWeight: 'bold',
+        color: '#1a1a2e',
+        letterSpacing: 0.5,
+    },
+});

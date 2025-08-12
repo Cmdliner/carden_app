@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import DraggableFlatList, { RenderItemParams } from 'react-native-draggable-flatlist';
 import { Text } from "react-native-paper";
 import { useAuth } from '../../contexts/AuthContext';
@@ -40,52 +40,50 @@ export default function HomeScreen() {
     );
 
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.content}>
-                {/* Welcome Header */}
-                <View style={styles.welcomeSection}>
-                    <Text style={styles.greeting}>
-                        {getGreeting()}, {user?.name?.split(' ')[0] || 'Welcome'}!
-                    </Text>
-                    <Text style={styles.subtitle}>
-                        Ready to manage your digital assets?
-                    </Text>
-                </View>
-
-
-                {/* Priority Expenses - Draggable List */}
-                <View style={styles.expensesSection}>
-                    <Text style={styles.sectionTitle}>Priority Expenses</Text>
-                    <DraggableFlatList
-                        data={expenses}
-                        onDragEnd={({ data }) => setExpenses(data)}
-                        keyExtractor={item => item.key}
-                        renderItem={renderExpenseItem}
-                        containerStyle={styles.expensesList}
-                        contentContainerStyle={{ paddingBottom: 16 }}
-                        activationDistance={10}
-                        showsVerticalScrollIndicator={false}
-                    />
-                </View>
-
-            </View>
-        </ScrollView>
+        <View style={styles.screenWrap}>
+            <DraggableFlatList
+                data={expenses}
+                onDragEnd={({ data }) => setExpenses(data)}
+                keyExtractor={item => item.key}
+                renderItem={renderExpenseItem}
+                contentContainerStyle={styles.listContent}
+                activationDistance={10}
+                showsVerticalScrollIndicator={false}
+                ListHeaderComponent={
+                    <View style={styles.headerWrap}>
+                        <Text style={styles.greeting}>
+                            {getGreeting()}, <Text style={styles.greetingName}>{user?.name?.split(' ')[0] || 'Welcome'}</Text>!
+                        </Text>
+                        <Text style={styles.subtitle}>
+                            Ready to manage your digital assets?
+                        </Text>
+                        <Text style={styles.sectionTitle}>Priority Expenses</Text>
+                    </View>
+                }
+            />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    screenWrap: {
         flex: 1,
         backgroundColor: '#f8fafc',
+        paddingHorizontal: 20,
+        paddingTop: 36,
+        paddingBottom: 0,
+    },
+    listContent: {
+        paddingBottom: 32,
+    },
+    headerWrap: {
+        alignItems: 'center',
+        marginBottom: 18,
     },
     content: {
         padding: 24,
         paddingTop: 60,
         gap: 32,
-    },
-    welcomeSection: {
-        alignItems: 'center',
-        marginBottom: 8,
     },
     greeting: {
         fontSize: 28,
@@ -93,15 +91,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#1a1a2e',
         textAlign: 'center',
-        marginBottom: 8,
+        marginBottom: 4,
+    },
+    greetingName: {
+        fontFamily: 'SpaceGrotesk',
+        fontWeight: 'bold',
+        color: '#007AFF',
     },
     subtitle: {
         fontSize: 16,
         color: '#64748b',
         textAlign: 'center',
-    },
-    expensesSection: {
-        marginBottom: 32,
+        marginBottom: 18,
     },
     expensesList: {
         marginTop: 12,
@@ -111,13 +112,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         borderRadius: 16,
-        padding: 20,
+        paddingVertical: 18,
+        paddingHorizontal: 16,
         marginBottom: 12,
         shadowColor: '#cbd5e1',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.10,
-        shadowRadius: 4,
-        elevation: 2,
+        shadowOpacity: 0.08,
+        shadowRadius: 2,
+        elevation: 1,
     },
     expenseItemActive: {
         backgroundColor: '#f1f5f9',
@@ -139,12 +141,15 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter',
     },
     expenseDragHandle: {
-        borderRadius: 12,
+        borderRadius: 8,
         borderColor: '#e0e7ef',
         borderWidth: 1,
-        marginLeft: 12,
+        marginLeft: 8,
         backgroundColor: '#f8fafc',
-        minWidth: 60,
+        minWidth: 32,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 32,
     },
     actionsSection: {
         gap: 16,
