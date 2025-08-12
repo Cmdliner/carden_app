@@ -3,9 +3,9 @@ import { SpaceGrotesk_500Medium, useFonts } from "@expo-google-fonts/space-grote
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { MD3LightTheme, PaperProvider, Text } from "react-native-paper";
 import { AuthProvider } from "../contexts/AuthContext";
-
 SplashScreen.setOptions({
     duration: 1000,
     fade: true
@@ -40,15 +40,17 @@ export default function RootLayout() {
     };
 
     return !loaded ? <Text>Loading...</Text> : (
-        <PaperProvider theme={theme}>
-            <AuthProvider>
-                <Stack screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="index" />
-                    <Stack.Screen name="welcome" />
-                    <Stack.Screen name="(auth)" />
-                    <Stack.Screen name="(tabs)" />
-                </Stack>
-            </AuthProvider>
-        </PaperProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <PaperProvider theme={theme}>
+                <AuthProvider>
+                    <Stack screenOptions={{ headerShown: false }}>
+                        <Stack.Screen name="index" />
+                        <Stack.Screen name="welcome" />
+                        <Stack.Screen name="(auth)" />
+                        <Stack.Screen name="(tabs)" />
+                    </Stack>
+                </AuthProvider>
+            </PaperProvider>
+        </GestureHandlerRootView>
     );
 }

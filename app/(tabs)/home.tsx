@@ -1,17 +1,44 @@
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import DraggableFlatList, { RenderItemParams } from 'react-native-draggable-flatlist';
+import { Text } from "react-native-paper";
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function HomeScreen() {
     const { user } = useAuth();
-    
+    const [expenses, setExpenses] = useState([
+        { key: '1', title: 'Groceries', updated: '2025-08-10 14:30' },
+        { key: '2', title: 'Rent', updated: '2025-08-01 09:00' },
+        { key: '3', title: 'Utilities', updated: '2025-08-05 16:45' },
+        { key: '4', title: 'Gym Membership', updated: '2025-08-11 18:20' },
+        { key: '5', title: 'Dining Out', updated: '2025-08-09 20:10' },
+    ]);
+
     const getGreeting = () => {
         const hour = new Date().getHours();
         if (hour < 12) return 'Good morning';
         if (hour < 17) return 'Good afternoon';
         return 'Good evening';
     };
-    
+
+    const renderExpenseItem = ({ item, drag, isActive }: RenderItemParams<any>) => (
+        <View style={[styles.expenseItem, isActive && styles.expenseItemActive]}>
+            <View style={styles.expenseTextContainer}>
+                <Text style={styles.expenseTitle}>{item.title}</Text>
+                <Text style={styles.expenseUpdated}>Last updated: {item.updated}</Text>
+            </View>
+            <Pressable
+                onLongPress={drag}
+                style={({ pressed }) => [
+                    styles.expenseDragHandle,
+                    pressed && { backgroundColor: '#e0e7ef' }
+                ]}
+            >
+                <Text style={{ color: '#64748b', fontFamily: 'Inter', fontWeight: '600', fontSize: 20 }}>☰</Text>
+            </Pressable>
+        </View>
+    );
+
     return (
         <ScrollView style={styles.container}>
             <View style={styles.content}>
@@ -25,74 +52,22 @@ export default function HomeScreen() {
                     </Text>
                 </View>
 
-                {/* Balance Card */}
-                <View style={styles.balanceCard}>
-                    <Text style={styles.balanceLabel}>Total Balance</Text>
-                    <Text style={styles.balanceAmount}>$0.00</Text>
-                    <Text style={styles.balanceSubtext}>Loading your portfolio...</Text>
+
+                {/* Priority Expenses - Draggable List */}
+                <View style={styles.expensesSection}>
+                    <Text style={styles.sectionTitle}>Priority Expenses</Text>
+                    <DraggableFlatList
+                        data={expenses}
+                        onDragEnd={({ data }) => setExpenses(data)}
+                        keyExtractor={item => item.key}
+                        renderItem={renderExpenseItem}
+                        containerStyle={styles.expensesList}
+                        contentContainerStyle={{ paddingBottom: 16 }}
+                        activationDistance={10}
+                        showsVerticalScrollIndicator={false}
+                    />
                 </View>
 
-                {/* Quick Actions */}
-                <View style={styles.actionsSection}>
-                    <Text style={styles.sectionTitle}>Quick Actions</Text>
-                    <View style={styles.actionButtons}>
-                        <Button 
-                            mode="contained" 
-                            style={[styles.actionButton, styles.primaryAction]}
-                            contentStyle={styles.buttonContent}
-                            buttonColor="#007AFF"
-                            onPress={() => {}}
-                        >
-                            Send
-                        </Button>
-                        <Button 
-                            mode="contained" 
-                            style={[styles.actionButton, styles.secondaryAction]}
-                            contentStyle={styles.buttonContent}
-                            buttonColor="rgba(0, 122, 255, 0.1)"
-                            textColor="#007AFF"
-                            onPress={() => {}}
-                        >
-                            Receive
-                        </Button>
-                    </View>
-                </View>
-
-                {/* Account Overview */}
-                <View style={styles.overviewSection}>
-                    <Text style={styles.sectionTitle}>Account Overview</Text>
-                    <View style={styles.overviewItems}>
-                        <View style={styles.overviewItem}>
-                            <View style={styles.overviewIcon}>
-                                <Text style={styles.iconText}>🔒</Text>
-                            </View>
-                            <View style={styles.overviewContent}>
-                                <Text style={styles.overviewTitle}>Security</Text>
-                                <Text style={styles.overviewDescription}>All systems secure</Text>
-                            </View>
-                        </View>
-                        
-                        <View style={styles.overviewItem}>
-                            <View style={styles.overviewIcon}>
-                                <Text style={styles.iconText}>📊</Text>
-                            </View>
-                            <View style={styles.overviewContent}>
-                                <Text style={styles.overviewTitle}>Activity</Text>
-                                <Text style={styles.overviewDescription}>0 transactions this month</Text>
-                            </View>
-                        </View>
-                        
-                        <View style={styles.overviewItem}>
-                            <View style={styles.overviewIcon}>
-                                <Text style={styles.iconText}>⚡</Text>
-                            </View>
-                            <View style={styles.overviewContent}>
-                                <Text style={styles.overviewTitle}>Performance</Text>
-                                <Text style={styles.overviewDescription}>Optimal network status</Text>
-                            </View>
-                        </View>
-                    </View>
-                </View>
             </View>
         </ScrollView>
     );
@@ -125,32 +100,51 @@ const styles = StyleSheet.create({
         color: '#64748b',
         textAlign: 'center',
     },
-    balanceCard: {
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 32,
+    expensesSection: {
+        marginBottom: 32,
+    },
+    expensesList: {
+        marginTop: 12,
+    },
+    expenseItem: {
+        flexDirection: 'row',
         alignItems: 'center',
-        shadowColor: '#000',
+        backgroundColor: '#fff',
+        borderRadius: 16,
+        padding: 20,
+        marginBottom: 12,
+        shadowColor: '#cbd5e1',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 20,
-        elevation: 3,
+        shadowOpacity: 0.10,
+        shadowRadius: 4,
+        elevation: 2,
     },
-    balanceLabel: {
-        fontSize: 16,
-        color: '#64748b',
-        marginBottom: 8,
+    expenseItemActive: {
+        backgroundColor: '#f1f5f9',
+        shadowOpacity: 0.18,
     },
-    balanceAmount: {
-        fontSize: 48,
+    expenseTextContainer: {
+        flex: 1,
+    },
+    expenseTitle: {
+        fontSize: 18,
         fontFamily: 'SpaceGrotesk',
         fontWeight: 'bold',
         color: '#1a1a2e',
         marginBottom: 4,
     },
-    balanceSubtext: {
-        fontSize: 14,
-        color: '#94a3b8',
+    expenseUpdated: {
+        fontSize: 13,
+        color: '#64748b',
+        fontFamily: 'Inter',
+    },
+    expenseDragHandle: {
+        borderRadius: 12,
+        borderColor: '#e0e7ef',
+        borderWidth: 1,
+        marginLeft: 12,
+        backgroundColor: '#f8fafc',
+        minWidth: 60,
     },
     actionsSection: {
         gap: 16,
