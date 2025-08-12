@@ -94,10 +94,12 @@ export default function LoginScreen() {
                             theme={{
                                 colors: {
                                     primary: '#007AFF',
-                                    outline: 'rgba(255, 255, 255, 0.2)',
-                                    onSurfaceVariant: 'rgba(255, 255, 255, 0.6)',
-                                    onSurface: 'white',
-                                    surface: 'rgba(255, 255, 255, 0.05)',
+                                    outline: '#cbd5e1',
+                                    onSurfaceVariant: '#64748b',
+                                    onSurface: '#1a1a2e',
+                                    surface: '#fff',
+                                    placeholder: '#64748b',
+                                    text: '#1a1a2e',
                                 }
                             }}
                         />
@@ -122,10 +124,12 @@ export default function LoginScreen() {
                             theme={{
                                 colors: {
                                     primary: '#007AFF',
-                                    outline: 'rgba(255, 255, 255, 0.2)',
-                                    onSurfaceVariant: 'rgba(255, 255, 255, 0.6)',
-                                    onSurface: 'white',
-                                    surface: 'rgba(255, 255, 255, 0.05)',
+                                    outline: '#cbd5e1',
+                                    onSurfaceVariant: '#64748b',
+                                    onSurface: '#1a1a2e',
+                                    surface: '#fff',
+                                    placeholder: '#64748b',
+                                    text: '#1a1a2e',
                                 }
                             }}
                             right={
@@ -167,7 +171,7 @@ export default function LoginScreen() {
                             onPress={() => router.push('/(auth)/register')}
                             style={styles.registerButton}
                             contentStyle={styles.buttonContent}
-                            textColor="rgba(255, 255, 255, 0.8)"
+                            textColor="#1a1a2e"
                         >
                             Don't have an account? Sign Up
                         </Button>
@@ -181,7 +185,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0a0a0a',
+        backgroundColor: '#f8fafc', // light warm background
     },
     keyboardAvoid: {
         flex: 1,
@@ -204,14 +208,14 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 32,
         fontFamily: 'SpaceGrotesk',
-        color: 'white',
+        color: '#1a1a2e',
         fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 8,
     },
     subtitle: {
         fontSize: 17,
-        color: 'rgba(255, 255, 255, 0.7)',
+        color: '#64748b',
         textAlign: 'center',
         marginBottom: 24,
     },
@@ -231,11 +235,11 @@ const styles = StyleSheet.create({
     loginButton: {
         marginTop: 8,
         borderRadius: 16,
-        shadowColor: '#007AFF',
+        shadowColor: '#cbd5e1',
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
+        shadowOpacity: 0.10,
         shadowRadius: 8,
-        elevation: 4,
+        elevation: 2,
     },
     buttonContent: {
         paddingVertical: 16,
@@ -248,10 +252,10 @@ const styles = StyleSheet.create({
     dividerLine: {
         flex: 1,
         height: 1,
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        backgroundColor: '#e0e7ef',
     },
     dividerText: {
-        color: 'rgba(255, 255, 255, 0.5)',
+        color: '#94a3b8',
         marginHorizontal: 16,
         fontSize: 14,
     },

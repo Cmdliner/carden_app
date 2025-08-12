@@ -3,7 +3,7 @@ import { SpaceGrotesk_500Medium, useFonts } from "@expo-google-fonts/space-grote
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { PaperProvider, Text } from "react-native-paper";
+import { MD3LightTheme, PaperProvider, Text } from "react-native-paper";
 import { AuthProvider } from "../contexts/AuthContext";
 
 SplashScreen.setOptions({
@@ -21,9 +21,26 @@ export default function RootLayout() {
     useEffect(() => {
         if (loaded) SplashScreen.hide();
     }, [loaded]);
-    
+
+    // Custom light, warm theme
+    const theme = {
+        ...MD3LightTheme,
+        colors: {
+            ...MD3LightTheme.colors,
+            background: '#f9f7f3', // warm light
+            surface: '#fffdfa', // slightly off-white
+            primary: '#7c5c2b', // warm brown/gold
+            onPrimary: '#fff',
+            secondary: '#e6cfa7',
+            onSecondary: '#3a2c13',
+            text: '#1a1a2e',
+            onSurface: '#1a1a2e',
+            outline: '#e0d7c3',
+        },
+    };
+
     return !loaded ? <Text>Loading...</Text> : (
-        <PaperProvider>
+        <PaperProvider theme={theme}>
             <AuthProvider>
                 <Stack screenOptions={{ headerShown: false }}>
                     <Stack.Screen name="index" />

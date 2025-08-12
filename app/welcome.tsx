@@ -65,7 +65,7 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0a0a0a',
+        backgroundColor: '#f8fafc', // light warm background
     },
     heroSection: {
         flex: 1,
@@ -82,32 +82,32 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 40,
-        backgroundColor: '#007AFF',
+        backgroundColor: '#f1f5f9',
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#007AFF',
+        shadowColor: '#cbd5e1',
         shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.3,
+        shadowOpacity: 0.15,
         shadowRadius: 16,
         elevation: 8,
     },
     logoText: {
         fontSize: 32,
         fontFamily: 'SpaceGrotesk',
-        color: 'white',
+        color: '#1a1a2e',
         fontWeight: 'bold',
     },
     title: {
         fontSize: 32,
         fontFamily: 'SpaceGrotesk',
-        color: 'white',
+        color: '#1a1a2e',
         fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 16,
     },
     subtitle: {
         fontSize: 17,
-        color: 'rgba(255, 255, 255, 0.7)',
+        color: '#64748b',
         textAlign: 'center',
         lineHeight: 24,
         paddingHorizontal: 16,
@@ -134,19 +134,19 @@ const styles = StyleSheet.create({
     buttonLabel: {
         fontSize: 16,
         fontWeight: '600',
-        color: 'white',
+        color: '#1a1a2e',
     },
     secondaryButtonLabel: {
         fontSize: 16,
         fontWeight: '500',
-        color: 'rgba(255, 255, 255, 0.8)',
+        color: '#64748b',
     },
     footer: {
         alignItems: 'center',
         paddingBottom: 32,
     },
     footerText: {
-        color: 'rgba(255, 255, 255, 0.5)',
+        color: '#94a3b8',
         fontSize: 14,
     },
 });

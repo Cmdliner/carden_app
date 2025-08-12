@@ -59,7 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 accessToken: authResponse.access_token,
                 refreshToken: authResponse.refresh_token,
             });
-            await storeUser(authResponse.user);
+            await storeUser(authResponse.user ?? "default_user");
 
             setUser(authResponse.user);
         } catch (error) {
